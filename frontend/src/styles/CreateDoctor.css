@@ -1,0 +1,185 @@
+/* CreateDoctor.css */
+:root {
+  --primary-purple: #6a0dad;
+  --light-purple: #9370db;
+  --subtle-purple: #f3e5f5;
+  --dark-purple: #4a148c;
+  --white: #ffffff;
+  --error-red: #ff4444;
+  --shadow-color: rgba(106, 13, 173, 0.2);
+}
+
+.create-doctor-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: var(--white);
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  transform: translateY(0);
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.create-doctor-container h2 {
+  color: var(--primary-purple);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.create-doctor-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, var(--light-purple), var(--primary-purple));
+  border-radius: 3px;
+  animation: expandWidth 1s ease-in-out;
+}
+
+@keyframes expandWidth {
+  from { width: 0; }
+  to { width: 80px; }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+input {
+  padding: 1rem;
+  border: 2px solid var(--subtle-purple);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: var(--white);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary-purple);
+  box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.1);
+  transform: translateY(-2px);
+}
+
+input::placeholder {
+  color: #bbb;
+}
+
+button {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--primary-purple);
+  color: var(--white);
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+button:hover {
+  background: var(--dark-purple);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(74, 20, 140, 0.3);
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+button:active {
+  transform: translateY(-1px);
+}
+
+.error {
+  color: var(--error-red);
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .create-doctor-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}
+
+/* Field entry animation */
+input, button {
+  animation: slideUp 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+input:nth-child(1) { animation-delay: 0.1s; }
+input:nth-child(2) { animation-delay: 0.2s; }
+input:nth-child(3) { animation-delay: 0.3s; }
+input:nth-child(4) { animation-delay: 0.4s; }
+button { animation-delay: 0.5s; }
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulse animation for the submit button */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Special hover effect for inputs */
+input:hover {
+  border-color: var(--light-purple);
+  background-color: var(--subtle-purple);
+}

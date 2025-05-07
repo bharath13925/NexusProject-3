@@ -1,0 +1,164 @@
+/* Settings.css */
+
+.settings-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f0f8ff;
+  }
+  
+  .sidebar-container {
+    width: 220px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 2rem;
+  }
+  
+  .main-content h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+  }
+  
+  .settings-tabs {
+    display: flex;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .tab-btn {
+    padding: 12px 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #555;
+    position: relative;
+  }
+  
+  .tab-btn.active {
+    color: #3498db;
+  }
+  
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #3498db;
+  }
+  
+  .settings-form {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  
+  /* Fixed label positioning */
+  .form-group label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+    color: #333;
+    font-size: 0.9rem;
+    position: relative;
+    left: 0;
+    top: 0;
+  }
+  
+  /* Improved input field styling */
+  .form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #fff;
+    box-sizing: border-box;
+  }
+  
+  /* Add focus styles for better UX */
+  .form-group input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  }
+  
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .checkbox-group input[type="checkbox"] {
+    margin-right: 10px;
+    width: auto;
+    height: 16px;
+    width: 16px;
+  }
+  
+  .checkbox-group label {
+    margin-bottom: 0;
+  }
+  
+  .save-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .save-btn:hover {
+    background-color: #2980b9;
+  }
+  
+  .message {
+    margin-bottom: 1rem;
+    padding: 12px;
+    border-radius: 4px;
+    animation: fadeIn 0.3s;
+  }
+  
+  .message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  
+  .message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .loading, .error-message {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+  }
