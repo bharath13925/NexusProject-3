@@ -1,0 +1,18 @@
+.appointment-card {
+    background-color: #f9f5ff;
+    border-left: 5px solid #6a0dad;
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 8px;
+    animation: fadeInUp 0.5s ease forwards;
+  }
+  
+  .appointment-card h4 {
+    margin: 0 0 0.5em 0;
+    color: #4b0082;
+  }
+  
+  .appointment-card p {
+    margin: 0.2em 0;
+  }
+  

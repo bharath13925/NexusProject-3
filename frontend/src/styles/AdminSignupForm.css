@@ -1,0 +1,193 @@
+/* AdminSignupForm.css */
+.admin-signup-container {
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 8px 24px rgba(149, 128, 255, 0.2);
+    transform: translateY(20px);
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+  
+  .admin-form-title {
+    color: #6a3de8;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  
+  .admin-form-group {
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  .admin-form-group input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
+  }
+  
+  .admin-form-group input:focus {
+    border-color: #8a63ff;
+    box-shadow: 0 0 0 3px rgba(138, 99, 255, 0.2);
+    outline: none;
+    background: white;
+  }
+  
+  .admin-form-group input::placeholder {
+    color: #aaa;
+    transition: all 0.3s ease;
+  }
+  
+  .admin-form-group input:focus::placeholder {
+    opacity: 0.7;
+    transform: translateY(-5px);
+  }
+  
+  .admin-submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #8a63ff, #6a3de8);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .admin-submit-btn:hover {
+    background: linear-gradient(135deg, #7753ff, #5a2de8);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(106, 61, 232, 0.3);
+  }
+  
+  .admin-submit-btn:active {
+    transform: translateY(0);
+  }
+  
+  .admin-submit-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    transform: scale(0);
+    opacity: 0;
+    transition: all 0.5s ease;
+  }
+  
+  .admin-submit-btn:active::after {
+    transform: scale(20);
+    opacity: 0;
+  }
+  
+  .admin-login-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #6a3de8;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .admin-login-link:hover {
+    color: #5a2de8;
+    text-decoration: underline;
+  }
+  
+  /* Animation keyframes */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .admin-form-group label {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    color: #aaa;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+  
+  .admin-form-group input:focus + label,
+  .admin-form-group input:not(:placeholder-shown) + label {
+    transform: translateY(-25px);
+    font-size: 12px;
+    color: #6a3de8;
+  }
+  
+  /* Input animations */
+  .admin-form-group input {
+    animation: inputPulse 1.5s infinite alternate;
+    animation-play-state: paused;
+  }
+  
+  .admin-form-group input:focus {
+    animation-play-state: running;
+  }
+  
+  @keyframes inputPulse {
+    from {
+      border-color: #8a63ff;
+    }
+    to {
+      border-color: #d4c6ff;
+    }
+  }
+  
+  /* Apply sequential fade-in for form elements */
+  .admin-signup-container > * {
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+  }
+  
+  .admin-form-group:nth-child(1) { animation-delay: 0.1s; }
+  .admin-form-group:nth-child(2) { animation-delay: 0.2s; }
+  .admin-form-group:nth-child(3) { animation-delay: 0.3s; }
+  .admin-form-group:nth-child(4) { animation-delay: 0.4s; }
+  .admin-form-group:nth-child(5) { animation-delay: 0.5s; }
+  .admin-form-group:nth-child(6) { animation-delay: 0.6s; }
+  .admin-form-group:nth-child(7) { animation-delay: 0.7s; }
+  .admin-submit-btn { animation-delay: 0.8s; }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Error message styling */
+  .admin-error-message {
+    color: #ff3860;
+    font-size: 14px;
+    margin-top: 5px;
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+  
+  @keyframes shake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+  }
