@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import SidebarComponent from '../components/AdminSidebar';
 import '../styles/AdminProfile.css';
@@ -7,38 +7,37 @@ const AdminProfile = () => {
   const [admin, setAdmin] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+  const fetchAdminData = useCallback(async (uid) => {
+    try {
+      const response = await fetch(`${apiUrl}/api/admins/${uid}`);
+      if (!response.ok) throw new Error('Failed to fetch admin data');
+
+      const data = await response.json();
+      setAdmin(data);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching admin data:", err);
+      setError("Failed to load admin data. Please try again later.");
+      setLoading(false);
+    }
+  }, [apiUrl]);
 
   useEffect(() => {
     const auth = getAuth();
-    
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        const uid = user.uid;
-
-        fetch(`http://localhost:5000/api/admins/${uid}`)
-          .then(res => {
-            if (!res.ok) throw new Error('Failed to fetch admin data');
-            return res.json();
-          })
-          .then(data => {
-            setAdmin(data);
-            setLoading(false);
-          })
-          .catch(err => {
-            console.error("Error fetching admin data:", err);
-            setError("Failed to load admin data. Please try again later.");
-            setLoading(false);
-          });
-
+        fetchAdminData(user.uid);
       } else {
         setError("User not logged in. Please log in again.");
         setLoading(false);
       }
     });
 
-    // Clean up the listener on unmount
     return () => unsubscribe();
-  }, []);
+  }, [fetchAdminData]);
 
   if (loading) {
     return (
