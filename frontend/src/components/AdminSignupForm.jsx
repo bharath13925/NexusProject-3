@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase'; // Import your Firebase config
+import { auth } from '../firebase';
 import '../styles/AdminSignupForm.css';
 
 const AdminSignupForm = () => {
@@ -14,6 +14,8 @@ const AdminSignupForm = () => {
   const [location, setLocation] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,9 +43,7 @@ const AdminSignupForm = () => {
         location
       };
 
-
-      // Send admin data to your backend
-      const response = await fetch('http://localhost:5000/api/admins/signup', {
+      const response = await fetch(`${apiUrl}/api/admins/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -52,10 +52,11 @@ const AdminSignupForm = () => {
       });
 
       if (response.ok) {
-        navigate('/adminloginform'); // Redirect to admin login form
+        navigate('/adminloginform');
       } else {
         setError('Signup failed');
       }
+
       console.log("UID in localStorage:", localStorage.getItem('uid'));
     } catch (error) {
       console.error(error.message);
