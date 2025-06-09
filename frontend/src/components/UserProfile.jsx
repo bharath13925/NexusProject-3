@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import SidebarComponent from '../components/Sidebar';
 import '../styles/UserProfile.css';
 
@@ -8,30 +9,34 @@ const UserProfile = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Get user ID from localStorage
-    const uid = localStorage.getItem('uid');
-    
-    if (!uid) {
-      setError("User ID not found. Please log in again.");
-      setLoading(false);
-      return;
-    }
+    const auth = getAuth();
 
-    // Fetch user data
-    fetch(`http://localhost:5000/api/users/${uid}`)
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch user data');
-        return res.json();
-      })
-      .then(data => {
-        setUser(data);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        const uid = firebaseUser.uid;
+
+        fetch(`http://localhost:5000/api/users/${uid}`)
+          .then(res => {
+            if (!res.ok) throw new Error('Failed to fetch user data');
+            return res.json();
+          })
+          .then(data => {
+            setUser(data);
+            setLoading(false);
+          })
+          .catch(err => {
+            console.error("Error fetching user data:", err);
+            setError("Failed to load user data. Please try again later.");
+            setLoading(false);
+          });
+
+      } else {
+        setError("User not logged in. Please log in again.");
         setLoading(false);
-      })
-      .catch(err => {
-        console.error("Error fetching user data:", err);
-        setError("Failed to load user data. Please try again later.");
-        setLoading(false);
-      });
+      }
+    });
+
+    return () => unsubscribe(); // Clean up listener
   }, []);
 
   if (loading) {
