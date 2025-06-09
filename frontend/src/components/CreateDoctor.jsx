@@ -13,6 +13,8 @@ const CreateDoctor = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -22,7 +24,7 @@ const CreateDoctor = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/doctors', {
+      const response = await fetch(`${apiUrl}/api/doctors`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -38,7 +40,7 @@ const CreateDoctor = () => {
           degree: '',
           appointmentFee: ''
         });
-        navigate('/doctors'); // redirect to doctors listing page
+        navigate('/doctors');
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Failed to create doctor');
