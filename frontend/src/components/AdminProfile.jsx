@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import SidebarComponent from '../components/AdminSidebar';
-import '../styles/AdminProfile.css'; // Reusing the same CSS
+import '../styles/AdminProfile.css';
 
 const AdminProfile = () => {
   const [admin, setAdmin] = useState(null);
@@ -8,28 +9,35 @@ const AdminProfile = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const uid = localStorage.getItem('uid');
+    const auth = getAuth();
+    
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
 
-    if (!uid) {
-      setError("Admin ID not found. Please log in again.");
-      setLoading(false);
-      return;
-    }
+        fetch(`http://localhost:5000/api/admins/${uid}`)
+          .then(res => {
+            if (!res.ok) throw new Error('Failed to fetch admin data');
+            return res.json();
+          })
+          .then(data => {
+            setAdmin(data);
+            setLoading(false);
+          })
+          .catch(err => {
+            console.error("Error fetching admin data:", err);
+            setError("Failed to load admin data. Please try again later.");
+            setLoading(false);
+          });
 
-    fetch(`http://localhost:5000/api/admins/${uid}`)
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch admin data');
-        return res.json();
-      })
-      .then(data => {
-        setAdmin(data);
+      } else {
+        setError("User not logged in. Please log in again.");
         setLoading(false);
-      })
-      .catch(err => {
-        console.error("Error fetching admin data:", err);
-        setError("Failed to load admin data. Please try again later.");
-        setLoading(false);
-      });
+      }
+    });
+
+    // Clean up the listener on unmount
+    return () => unsubscribe();
   }, []);
 
   if (loading) {
