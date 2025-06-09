@@ -26,11 +26,12 @@ const AdminSettings = () => {
   const [message, setMessage] = useState('');
 
   const uid = auth.currentUser?.uid;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     if (!uid) return;
 
-    fetch(`http://localhost:5000/api/admin/settings/${uid}`)
+    fetch(`${apiUrl}/api/admin/settings/${uid}`)
       .then(res => res.json())
       .then(data => {
         if (data.notification && data.appearance) {
@@ -55,7 +56,7 @@ const AdminSettings = () => {
         lastLogin: currentUser.metadata.lastSignInTime
       });
     }
-  }, [uid]);
+  }, [uid, apiUrl]);
 
   const handleNotificationChange = (e) => {
     const { name, checked } = e.target;
@@ -79,7 +80,7 @@ const AdminSettings = () => {
     };
 
     try {
-      const res = await fetch('http://localhost:5000/api/admin/settings', {
+      const res = await fetch(`${apiUrl}/api/admin/settings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
