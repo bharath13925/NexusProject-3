@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
@@ -20,29 +20,18 @@ const AdminDashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (!user) {
-        navigate('/adminloginform');
-      } else {
-        fetchData();
-      }
-    });
-
-    return () => unsubscribe();
-  }, [navigate]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const doctorsResponse = await fetch('http://localhost:5000/api/doctors');
+      const doctorsResponse = await fetch(`${apiUrl}/api/doctors`);
       const doctorsData = await doctorsResponse.json();
 
-      const usersResponse = await fetch('http://localhost:5000/api/users');
+      const usersResponse = await fetch(`${apiUrl}/api/users`);
       const usersData = await usersResponse.json();
 
-      const appointmentsResponse = await fetch('http://localhost:5000/api/appointments');
+      const appointmentsResponse = await fetch(`${apiUrl}/api/appointments`);
       const appointmentsData = await appointmentsResponse.json();
 
       const processedDoctors = doctorsData.map(doctor => {
@@ -83,11 +72,22 @@ const AdminDashboard = () => {
       setAppointments(appointmentsData);
     } catch (error) {
       console.error("Error fetching data:", error);
-      alert("Failed to fetch data from the server.");
     } finally {
       setLoading(false);
     }
-  };
+  }, [apiUrl]);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (!user) {
+        navigate('/adminloginform');
+      } else {
+        fetchData();
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigate, fetchData]);
 
   const handleLogout = async () => {
     try {
@@ -113,7 +113,6 @@ const AdminDashboard = () => {
       case 'bookmarks':
         return <Bookmarks />;
       case 'doctors':
-        return <DoctorsList doctors={doctors} users={users} appointments={appointments} />;
       default:
         return <DoctorsList doctors={doctors} users={users} appointments={appointments} />;
     }
